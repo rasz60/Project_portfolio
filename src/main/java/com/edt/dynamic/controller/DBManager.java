@@ -21,7 +21,7 @@ public class DBManager {
 			
 			conn = ds.getConnection();
 			
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return conn;
