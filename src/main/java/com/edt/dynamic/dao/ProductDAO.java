@@ -16,12 +16,11 @@ public class ProductDAO {
 	
 	public ProductDTO getInstance() {
 		pDto = new ProductDTO();
-		
 		return pDto;
 	}
 	
 	public List<ProductDTO> selectProductList() {
-		ArrayList<ProductDTO> dtos = new ArrayList<ProductDTO>();
+		List<ProductDTO> dtos = new ArrayList<ProductDTO>();
 		
 		pDto = new ProductDTO();
 		
@@ -29,41 +28,31 @@ public class ProductDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = "SELECT * FROM product3";
-		
 		try {
-			conn = DBManager.DBConn();
+			conn = DBManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
 			while( rs.next() ) {
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
-				pDto.setpId(rs.getString("P_ID"));
+				pDto = getInstance();
+				pDto.setpId(rs.getString(1));
+				pDto.setpBrand(rs.getString(2));
+				pDto.setpCollection(rs.getString(3));
+				pDto.setpEname(rs.getString(4));
+				pDto.setpKname(rs.getString(5));
+				pDto.setpImage(rs.getString(6));
+				pDto.setpGender(rs.getString(7));
+				pDto.setpSize(rs.getInt(8));
+				pDto.setpPrice(rs.getInt(9));
+				pDto.setpStock(rs.getInt(10));
+				pDto.setpDate(rs.getTimestamp(11));
+				pDto.setpHit(rs.getInt(12));
+				dtos.add(pDto);
 			}
-			
-		} catch (Exception e1 ) {
-			
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		} finally {
-			try {
-				
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			DBManager.queryClose(conn, pstmt, rs);
 		}
-		
-		
-		
-		
-		
 		return dtos;
 	}
 }

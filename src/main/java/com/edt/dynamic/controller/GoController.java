@@ -41,7 +41,7 @@ public class GoController extends HttpServlet {
 		String cntxtPath = request.getContextPath();
 		String cmd = uri.substring(cntxtPath.length());
 		
-		if ( cmd.equals("/main.go") || cmd.equals("/") || cmd == null ) {
+		if ( cmd.equals("/main.go") || cmd == null ) {
 			viewPage = "";
 		} else if ( cmd.equals("/draw.go") ) {
 			viewPage = "draw.jsp";
@@ -52,7 +52,7 @@ public class GoController extends HttpServlet {
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
-		System.out.println(viewPage + "∑Œ ¿Ãµø.");
+		System.out.println(viewPage + "Î°ú Ïù¥Îèô()");
 		dispatcher.forward(request, response);
 	}
 }

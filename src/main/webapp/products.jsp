@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>   
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -17,23 +22,23 @@
     
     <nav id="gender_menu">
 		<ul>
-			<li class="chck_gender" data-value="'M'">MAN</li>
-			<li class="chck_gender" data-value="'W'">WOMAN</li>
-			<li class="chck_gender" data-value="'KIDS'">KIDS</li>
+			<li class="chck_gender" data-value="M">MAN</li>
+			<li class="chck_gender" data-value="W">WOMAN</li>
+			<li class="chck_gender" data-value="KIDS">KIDS</li>
 		</ul>
     </nav>    
     <section id="products">
         <div class="kind_menu">
             <h1>BRAND</h1>
             <ul>
-           		<li class="brand_menu"><a href="products.jsp">ALL BRAND</a></li>
-                <li class="brand_menu"><a href="?brand='JORDAN'">JORDAN</a></li>
-                <li class="brand_menu"><a href="?brand='NIKE'">NIKE</a></li>
-                <li class="brand_menu"><a href="?brand='ADIDAS'">ADIDAS</a></li>
-                <li class="brand_menu"><a href="?brand='NEW BALANCE'">NEW BALANCE</a></li>
+           		<li class="brand_menu"><a href="?brand=ALL">ALL BRAND</a></li>
+                <li class="brand_menu"><a href="?brand=JORDAN">JORDAN</a></li>
+                <li class="brand_menu"><a href="?brand=NIKE">NIKE</a></li>
+                <li class="brand_menu"><a href="?brand=ADIDAS">ADIDAS</a></li>
+                <li class="brand_menu"><a href="?brand=NEW BALANCE">NEW BALANCE</a></li>
             </ul>
         </div>
-        <%@include file="dbconn.jsp" %>
+        
         <div id="prod">
 	        <div id="filter_box">
 				<span class="filter" data-value="p_date" >최신순</span>
@@ -41,50 +46,19 @@
 				<span class="filter" data-value="p_price" >낮은 가격순</span>
 				<span class="filter" data-value="p_price DESC" >높은 가격순</span>
 	        </div>
-		<%	
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			String brand = request.getParameter("brand");
-			String gender = request.getParameter("gender");
-			String filter = request.getParameter("filter");
-			String sql = "SELECT * FROM product3";
-			
-			if( brand != null || gender != null ) {
-				sql += " WHERE";
-			}
-			
-			if ( brand != null && gender != null ) {
-				sql += " p_brand = " + brand + " AND p_gender = " + gender;
-			} else if ( brand == null && gender != null ) {
-				sql += " p_gender = " + gender;
-			} else if ( brand != null && gender == null ) {
-				sql += " p_brand = " + brand;
-			} 
-			
-			if( filter != null) {
-				sql += " ORDER BY " + filter;
-			}
-			
-			pstmt = conn.prepareStatement(sql); 
-			rs = pstmt.executeQuery();
-			while(rs.next()){
-		%>
-		<div class="product">	        
-		    <div class="wrap">      
-		        <a href="product.jsp?p_id=<%=rs.getString("p_id")%>"><img src="resources/img/p_img/<%=rs.getString("p_image")%>" alt="no"></a>
-		    </div>
-		    <div class="product_info">
-		      	<p class="brand"><a href="products.jsp?brand='<%=rs.getString("p_brand")%>'"><%=rs.getString("p_brand")%></a></p>
-		        <p class="ename"><a href="#"><%=rs.getString("p_ename")%></a></p>
-		        <p class="kname"><%=rs.getString("p_kname")%></p>
-		        <h3><a href="#"><%=rs.getString("p_price").replaceAll("\\B(?=(\\d{3})+(?!\\d))", ",")%>원</a></h3>
-		    </div>
-		</div>
-		<% }
-			rs.close();
-			pstmt.close();
-			conn.close();
-		%>
+			<c:forEach var="products" items="${pList}">
+				<div class="product">	        
+				    <div class="wrap">      
+				        <a href="product.jsp?p_id=${products.pId}"><img src="resources/img/p_img/${products.pImage}" alt="no"></a>
+				    </div>
+				    <div class="product_info">
+				      	<p class="brand"><a href="products.jsp?brand='${products.pBrand}'">${products.pBrand}</a></p>
+				        <p class="ename"><a href="#">${products.pEname}</a></p>
+				        <p class="kname">${products.pKname}</p>
+				        <h3><a href="#"><fmt:formatNumber value="${products.pPrice}" pattern="#,###" />원</a></h3>
+				    </div>
+				</div>
+		</c:forEach>
 		</div>
     </section>
     

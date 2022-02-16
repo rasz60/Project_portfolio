@@ -9,13 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.edt.dynamic.command.Execute;
+import com.edt.dynamic.command.ExecuteProducts;
+
 /**
  * Servlet implementation class DoController
  */
 @WebServlet("*.do")
 public class DoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    Execute execute;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -48,10 +51,14 @@ public class DoController extends HttpServlet {
 		String cntxtPath = request.getContextPath();
 		String cmd = uri.substring(cntxtPath.length());
 	
-		
+		if ( cmd.equals("/productsList.do") ) {
+			execute = new ExecuteProducts();
+			execute.execute(request, response);
+			viewPage = "products.jsp";
+		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
-		System.out.println(viewPage + "∑Œ ¿Ãµø.");
+		System.out.println(viewPage + "Î°ú Ïù¥Îèô.");
 		dispatcher.forward(request, response);
 	}
 }

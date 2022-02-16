@@ -181,19 +181,19 @@ $(function setPage() {
 	}
 
 	switch(value2) {
-		case "'JORDAN'" :
+		case "JORDAN" :
 			$(".brand_menu:nth-of-type(2)").css("background-color","black").animate({opacity:"0.6"}, 800);
 			$(".brand_menu:nth-child(2)>a").css({"color":"white", "fontSize":"+=0.1em"}).animate({fontSize:"-=0.1em"}, 800);
 			break;
-		case "'NIKE'" :
+		case "NIKE" :
 			$(".brand_menu:nth-of-type(3)").css("background-color","black").animate({opacity:"0.6"}, 800);
 			$(".brand_menu:nth-child(3)>a").css({"color":"white", "fontSize":"+=0.1em"}).animate({fontSize:"-=0.1em"}, 800);
 			break;
-		case "'ADIDAS'" :
+		case "ADIDAS" :
 			$(".brand_menu:nth-of-type(4)").css("background-color","black").animate({opacity:"0.6"}, 800);
 			$(".brand_menu:nth-child(4)>a").css({"color":"white", "fontSize":"+=0.1em"}).animate({fontSize:"-=0.1em"}, 800);
 			break;
-		case "'NEW BALANCE'" :
+		case "NEW BALANCE" :
 			$(".brand_menu:nth-of-type(5)").css("background-color","black").animate({opacity:"0.6"}, 800);
 			$(".brand_menu:nth-child(5)>a").css({"color":"white", "fontSize":"+=0.1em"}).animate({fontSize:"-=0.1em"}, 800);
 			break;
