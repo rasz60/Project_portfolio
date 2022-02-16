@@ -6,8 +6,6 @@
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
 	
-	
-	
 	Boolean connect = false;
 		
 	try{
@@ -16,14 +14,14 @@
 	    //자신의 아이디와 비밀번호
 	    connect = true;
 	    
-	}catch(Exception e){
+	} catch(Exception e){
 	    connect = false;
 	    e.printStackTrace();
 	}
 
 	if(connect==true){
     	//System.out.println("데이터 베이스 연결성공");
-	}else{ 
+	} else { 
     	System.out.println("데이터 베이스 연결실패");
 	}
 %>
