@@ -22,20 +22,20 @@
     
     <nav id="gender_menu">
 		<ul>
-			<li class="chck_gender" data-value="M">MAN</li>
-			<li class="chck_gender" data-value="W">WOMAN</li>
-			<li class="chck_gender" data-value="KIDS">KIDS</li>
+			<li class="chck_gender" data-value="'M'">MAN</li>
+			<li class="chck_gender" data-value="'W'">WOMAN</li>
+			<li class="chck_gender" data-value="'KIDS'">KIDS</li>
 		</ul>
     </nav>    
     <section id="products">
         <div class="kind_menu">
             <h1>BRAND</h1>
             <ul>
-           		<li class="brand_menu"><a href="?brand=ALL">ALL BRAND</a></li>
-                <li class="brand_menu"><a href="?brand=JORDAN">JORDAN</a></li>
-                <li class="brand_menu"><a href="?brand=NIKE">NIKE</a></li>
-                <li class="brand_menu"><a href="?brand=ADIDAS">ADIDAS</a></li>
-                <li class="brand_menu"><a href="?brand=NEW BALANCE">NEW BALANCE</a></li>
+           		<li class="brand_menu"><a href="?">ALL BRAND</a></li>
+                <li class="brand_menu"><a href="?brand='JORDAN'">JORDAN</a></li>
+                <li class="brand_menu"><a href="?brand='NIKE'">NIKE</a></li>
+                <li class="brand_menu"><a href="?brand='ADIDAS'">ADIDAS</a></li>
+                <li class="brand_menu"><a href="?brand='NEW BALANCE'">NEW BALANCE</a></li>
             </ul>
         </div>
         

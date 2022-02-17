@@ -36,18 +36,20 @@ public class ProductDAO {
 		String gender = request.getParameter("gender");
 
 		System.out.println(brand + " / " + filter + " / " + gender);
-
+		
 		
 		if ( brand != null && gender != null ) {
-			sql += " WHERE p_brand='" + brand + "' AND p_gender='" + gender + "'" ; 
-		} else if ( brand != null || gender == null) {
-			sql += " WHERE p_brand='" + brand + "'"; 
-		} else if ( brand == null || gender != null ) { 
-			sql += " WHERE p_gender='" + gender + "'"; }
+			sql += " WHERE p_brand=" + brand + " AND p_gender=" + gender ; 
+		} if ( brand != null && gender == null) {
+			sql += " WHERE p_brand=" + brand; 
+		} else if ( brand == null && gender != null ) { 
+			sql += " WHERE p_gender=" + gender; 
+		}
 
-		if ( filter != null ) { sql += " ORDER BY " + filter; }
-
-
+		if ( filter != null ) { 
+			sql += " ORDER BY " + filter;
+		}
+		System.out.println(sql);
 		try {
 			conn = DBManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
