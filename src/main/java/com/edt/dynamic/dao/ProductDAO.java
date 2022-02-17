@@ -6,33 +6,53 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.edt.dynamic.controller.DBManager;
 import com.edt.dynamic.dto.ProductDTO;
 
 public class ProductDAO {
 	private ProductDTO pDto;
 
-	public ProductDAO() {}
-	
+	public ProductDAO() {
+	}
+
 	public ProductDTO getInstance() {
 		pDto = new ProductDTO();
 		return pDto;
 	}
-	
-	public List<ProductDTO> selectProductList() {
+
+	public List<ProductDTO> selectProductList(HttpServletRequest request) {
 		List<ProductDTO> dtos = new ArrayList<ProductDTO>();
-		
 		pDto = new ProductDTO();
-		
+
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+
 		String sql = "SELECT * FROM product3";
+		String brand = request.getParameter("brand");
+		String filter = request.getParameter("filter");
+		String gender = request.getParameter("gender");
+
+		System.out.println(brand + " / " + filter + " / " + gender);
+
+		
+		if ( brand != null && gender != null ) {
+			sql += " WHERE p_brand='" + brand + "' AND p_gender='" + gender + "'" ; 
+		} else if ( brand != null || gender == null) {
+			sql += " WHERE p_brand='" + brand + "'"; 
+		} else if ( brand == null || gender != null ) { 
+			sql += " WHERE p_gender='" + gender + "'"; }
+
+		if ( filter != null ) { sql += " ORDER BY " + filter; }
+
+
 		try {
 			conn = DBManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			while( rs.next() ) {
+			while (rs.next()) {
 				pDto = getInstance();
 				pDto.setpId(rs.getString(1));
 				pDto.setpBrand(rs.getString(2));
