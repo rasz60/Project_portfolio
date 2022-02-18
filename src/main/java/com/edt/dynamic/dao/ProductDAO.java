@@ -22,21 +22,17 @@ public class ProductDAO {
 		return pDto;
 	}
 
-	public List<ProductDTO> selectProductList(HttpServletRequest request) {
+	public List<ProductDTO> selectProductList(String brand, String filter, String gender) {
 		List<ProductDTO> dtos = new ArrayList<ProductDTO>();
-		pDto = new ProductDTO();
+		pDto = getInstance();
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		String sql = "SELECT * FROM product3";
-		String brand = request.getParameter("brand");
-		String filter = request.getParameter("filter");
-		String gender = request.getParameter("gender");
 
 		System.out.println(brand + " / " + filter + " / " + gender);
-		
 		
 		if ( brand != null && gender != null ) {
 			sql += " WHERE p_brand=" + brand + " AND p_gender=" + gender ; 
@@ -55,7 +51,6 @@ public class ProductDAO {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				pDto = getInstance();
 				pDto.setpId(rs.getString(1));
 				pDto.setpBrand(rs.getString(2));
 				pDto.setpCollection(rs.getString(3));
@@ -69,6 +64,85 @@ public class ProductDAO {
 				pDto.setpDate(rs.getTimestamp(11));
 				pDto.setpHit(rs.getInt(12));
 				dtos.add(pDto);
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		} finally {
+			DBManager.queryClose(conn, pstmt, rs);
+		}
+		return dtos;
+	}
+	
+	public ProductDTO getProduct(String p_id) {
+		pDto = getInstance();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM product3 WHERE p_id=?";
+		
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, p_id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				pDto.setpId(rs.getString(1));
+				pDto.setpBrand(rs.getString(2));
+				pDto.setpCollection(rs.getString(3));
+				pDto.setpEname(rs.getString(4));
+				pDto.setpKname(rs.getString(5));
+				pDto.setpImage(rs.getString(6));
+				pDto.setpGender(rs.getString(7));
+				pDto.setpSize(rs.getInt(8));
+				pDto.setpPrice(rs.getInt(9));
+				pDto.setpStock(rs.getInt(10));
+				pDto.setpDate(rs.getTimestamp(11));
+				pDto.setpHit(rs.getInt(12));
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		} finally {
+			DBManager.queryClose(conn, pstmt, rs);
+		}
+		return pDto;
+	}
+	
+	public List<ProductDTO> recommandPage(String p_brand, String p_hit) {
+		List<ProductDTO> dtos = new ArrayList<ProductDTO>();
+		pDto = getInstance();
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM (SELECT * FROM product3 ORDER BY ?) WHERE rownum < 6;";
+		try {
+			conn = DBManager.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			for (int i = 0; i < 2; i++) {
+				if ( i == 0 ) {
+					pstmt.setString(1, p_brand);
+				} else {
+					pstmt.setString(1, p_hit);
+				}
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					pDto = getInstance();
+					pDto.setpId(rs.getString(1));
+					pDto.setpBrand(rs.getString(2));
+					pDto.setpCollection(rs.getString(3));
+					pDto.setpEname(rs.getString(4));
+					pDto.setpKname(rs.getString(5));
+					pDto.setpImage(rs.getString(6));
+					pDto.setpGender(rs.getString(7));
+					pDto.setpSize(rs.getInt(8));
+					pDto.setpPrice(rs.getInt(9));
+					pDto.setpStock(rs.getInt(10));
+					pDto.setpDate(rs.getTimestamp(11));
+					pDto.setpHit(rs.getInt(12));
+					dtos.add(pDto);
+				}
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
